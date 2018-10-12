@@ -1,23 +1,18 @@
 import Vue from 'vue';
-import Axios from 'axios';
+import VueRouter from 'vue-router';
 import template from './template.html';
-import './style.scss';
 import myItems from './components/items';
 
+const router = new VueRouter({
+  routes: [
+    { path: '/', redirect: 'list' },
+    { path: '/list', component: myItems, name: 'list' },
+  ],
+});
+
+Vue.use(VueRouter);
 const app = new Vue({
   el: '#demo-items',
+  router,
   template,
-  data: {
-    items: [],
-  },
-  components: {
-    myItems,
-  },
-  created() {
-    Axios.get('/items/api/items')
-      .then((response) => {
-        this.items = response.data.result
-      })
-      .catch((error) => {});
-  },
 });
